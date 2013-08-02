@@ -3,7 +3,6 @@ package com.learnit.LearnItDict;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,10 @@ public class LoadStarDictUiFragment extends Fragment{
     ProgressBar _progressBar;
     Button _button;
     TextView _success;
+    TextView _welcome;
+    TextView _explain;
+    TextView _copying;
+    TextView _deleteTheApp;
     private OnUserAction mCallback;
 
     public interface OnUserAction {
@@ -45,18 +48,25 @@ public class LoadStarDictUiFragment extends Fragment{
         _button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playCloseAnimation(view);
+                flyAwayDown(view);
                 mCallback.onButtonPressed();
             }
         });
         _success = (TextView) v.findViewById(R.id.txtSuccess);
         _success.setVisibility(View.INVISIBLE);
+
+        _welcome = (TextView) v.findViewById(R.id.txtWelcome);
+        _explain = (TextView) v.findViewById(R.id.txtExplanation);
+        _copying = (TextView) v.findViewById(R.id.txtCopying);
+        _copying.setVisibility(View.INVISIBLE);
+        _deleteTheApp = (TextView) v.findViewById(R.id.txtDelete);
+        _deleteTheApp.setVisibility(View.INVISIBLE);
         return v;
     }
 
-    private void playCloseAnimation(final View v)
+    private void flyAwayDown(final View v)
     {
-        Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fly_away);
+        Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fly_away_down);
         v.startAnimation(anim);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -74,9 +84,29 @@ public class LoadStarDictUiFragment extends Fragment{
         });
     }
 
-    private void playOpenAnimation(final View v)
+    private void flyAwayUp(final View v)
     {
-        Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fly_in);
+        Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fly_away_up);
+        v.startAnimation(anim);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                v.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+    }
+
+    private void flyInFromBelow(final View v)
+    {
+        Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fly_in_from_below);
         v.startAnimation(anim);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -94,19 +124,74 @@ public class LoadStarDictUiFragment extends Fragment{
         });
     }
 
+    private void flyInFromAbove(final View v)
+    {
+        Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fly_in_from_above);
+        v.startAnimation(anim);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                v.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+    }
+
+    private void playFadeOutAnimation(final View v)
+    {
+        Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fade_out);
+        v.startAnimation(anim);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                v.setAlpha(0.3f);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+    }
+
     public void setProgressVisible()
     {
-        playOpenAnimation(_progressBar);
+        flyInFromBelow(_progressBar);
+        flyAwayUp(_welcome);
+        flyAwayUp(_explain);
+        _copying.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                flyInFromAbove(_copying);
+            }
+        }, 500);
     }
 
     public void setProgressInvisible()
     {
-        playCloseAnimation(_progressBar);
+        flyAwayDown(_progressBar);
     }
 
     public void showSuccess()
     {
-        playOpenAnimation(_success);
+        flyInFromBelow(_success);
+        flyAwayUp(_copying);
+        _deleteTheApp.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                flyInFromAbove(_deleteTheApp);
+            }
+        }, 400);
     }
 
 

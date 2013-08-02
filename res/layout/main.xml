@@ -24,6 +24,25 @@
             android:textColor="@android:color/holo_blue_dark">
 
     </TextView>
+    <TextView
+            android:id="@+id/txtDelete"
+            android:gravity="center"
+            android:text="@string/delete_the_app"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium">
+
+    </TextView>
+    <TextView
+            android:id="@+id/txtCopying"
+            android:gravity="center"
+            android:text="@string/copying"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:textColor="@android:color/holo_blue_dark">
+
+    </TextView>
     <ProgressBar
             android:layout_alignParentBottom="true"
             style="@android:style/Widget.Holo.ProgressBar.Horizontal"
