@@ -3,6 +3,7 @@ package com.learnit.LearnItDict;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class LoadStarDictUiFragment extends Fragment{
+    private static String LOG_TAG = "my_logs";
     ProgressBar _progressBar;
     Button _button;
     TextView _success;
@@ -31,7 +33,7 @@ public class LoadStarDictUiFragment extends Fragment{
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mCallback = (MyActivity) activity;
+            mCallback = (MainActivity) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnUserAction");
         }
@@ -42,9 +44,13 @@ public class LoadStarDictUiFragment extends Fragment{
         View v = inflater.inflate(R.layout.main, container, false);
         _progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         _progressBar.setIndeterminate(true);
-        _progressBar.setVisibility(View.INVISIBLE);
-
         _button = (Button) v.findViewById(R.id.btnStart);
+        _success = (TextView) v.findViewById(R.id.txtSuccess);
+        _welcome = (TextView) v.findViewById(R.id.txtWelcome);
+        _explain = (TextView) v.findViewById(R.id.txtExplanation);
+        _copying = (TextView) v.findViewById(R.id.txtCopying);
+        _deleteTheApp = (TextView) v.findViewById(R.id.txtDelete);
+
         _button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,16 +58,54 @@ public class LoadStarDictUiFragment extends Fragment{
                 mCallback.onButtonPressed();
             }
         });
-        _success = (TextView) v.findViewById(R.id.txtSuccess);
-        _success.setVisibility(View.INVISIBLE);
-
-        _welcome = (TextView) v.findViewById(R.id.txtWelcome);
-        _explain = (TextView) v.findViewById(R.id.txtExplanation);
-        _copying = (TextView) v.findViewById(R.id.txtCopying);
-        _copying.setVisibility(View.INVISIBLE);
-        _deleteTheApp = (TextView) v.findViewById(R.id.txtDelete);
-        _deleteTheApp.setVisibility(View.INVISIBLE);
+        Log.e(LOG_TAG, "everything was created");
+        init();
         return v;
+    }
+
+    private void init()
+    {
+        try
+        {
+            _progressBar.setVisibility(View.INVISIBLE);
+            _success.setVisibility(View.INVISIBLE);
+            _copying.setVisibility(View.INVISIBLE);
+            _deleteTheApp.setVisibility(View.INVISIBLE);
+            _button.setVisibility(View.INVISIBLE);
+            _welcome.setVisibility(View.INVISIBLE);
+            _explain.setVisibility(View.INVISIBLE);
+        }
+        catch (NullPointerException e)
+        {
+           Log.e("my_logs", "something went wrong in init()");
+        }
+    }
+
+    public void showInitialLayout()
+    {
+        init();
+        _welcome.setVisibility(View.VISIBLE);
+        _explain.setVisibility(View.VISIBLE);
+        _button.setVisibility(View.VISIBLE);
+    }
+
+    public void showWorkingLayout()
+    {
+        init();
+        _progressBar.setVisibility(View.VISIBLE);
+        _copying.setVisibility(View.VISIBLE);
+    }
+
+    public void showDoneLayout()
+    {
+        init();
+        _success.setVisibility(View.VISIBLE);
+        _deleteTheApp.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private void flyAwayDown(final View v)
@@ -191,7 +235,7 @@ public class LoadStarDictUiFragment extends Fragment{
             public void run() {
                 flyInFromAbove(_deleteTheApp);
             }
-        }, 400);
+        }, 500);
     }
 
 

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class MyActivity extends Activity
+public class MainActivity extends Activity
         implements LoadStarDictWorker.OnTaskActionListener, LoadStarDictUiFragment.OnUserAction{
     LoadStarDictUiFragment _uiFragment;
     LoadStarDictWorker _taskFragment;
@@ -37,6 +37,31 @@ public class MyActivity extends Activity
         fragmentManager.beginTransaction()
                 .add(android.R.id.content, _uiFragment)
                 .commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initUIWithRespectToCurrentStatus();
+    }
+
+    private void initUIWithRespectToCurrentStatus()
+    {
+        LoadStarDictWorker.Status status = _taskFragment.getCurrentStatus();
+        if (status == null)
+            status = LoadStarDictWorker.Status.IDLE;
+        switch (status)
+        {
+            case IDLE:
+                _uiFragment.showInitialLayout();
+                break;
+            case WORKING:
+                _uiFragment.showWorkingLayout();
+                break;
+            case DONE:
+                _uiFragment.showDoneLayout();
+                break;
+        }
     }
 
     @Override

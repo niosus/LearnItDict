@@ -44,11 +44,11 @@
 
     </TextView>
     <ProgressBar
+        android:id="@+id/progressBar"
             android:layout_alignParentBottom="true"
             style="@android:style/Widget.Holo.ProgressBar.Horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"/>
+            android:layout_height="wrap_content"/>
     <Button
             android:id="@+id/btnStart"
             android:layout_above="@id/progressBar"

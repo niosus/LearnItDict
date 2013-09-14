@@ -3,31 +3,29 @@ package com.learnit.LearnItDict;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 public class LoadStarDictWorker extends Fragment {
+    public enum Status {IDLE, WORKING, DONE};
+
+
     final String LOG_TAG = "my_logs";
     public static String TAG = "task_fragment";
-    public boolean DONE = false;
     private static GetDictTask _task;
     protected Context _context;
+    private Status _status;
     private OnTaskActionListener mCallback;
 
     // Container Activity must implement this interface
@@ -42,7 +40,7 @@ public class LoadStarDictWorker extends Fragment {
         super.onAttach(activity);
         _context = activity;
         try {
-            mCallback = (MyActivity) activity;
+            mCallback = (MainActivity) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnTaskActionListener");
         }
@@ -52,13 +50,8 @@ public class LoadStarDictWorker extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        _status = Status.IDLE;
         Log.e(LOG_TAG, "task was executed");
-    }
-
-    public void executeTask()
-    {
-        updateTask();
-        _task.execute();
     }
 
     @Override
@@ -66,20 +59,30 @@ public class LoadStarDictWorker extends Fragment {
         return null;
     }
 
+    public void executeTask()
+    {
+        updateTask();
+        _task.execute();
+        _status = Status.WORKING;
+    }
+
     private void updateTask()
     {
-        if (_task == null || DONE)
+        if (_task == null || _status == Status.DONE)
         {
             _task = new GetDictTask();
         }
     }
 
+    public Status getCurrentStatus()
+    {
+        return _status;
+    }
 
     public class GetDictTask extends AsyncTask<Void, Integer, Void> {
 
         private GetDictTask()
         {
-
         }
 
         protected void copyDict()
@@ -95,7 +98,8 @@ public class LoadStarDictWorker extends Fragment {
                     try {
                         in = assetManager.open(path + File.separator + fileName);
                         File sdPath = Environment.getExternalStorageDirectory();
-                        File folder = new File(sdPath, path);
+                        File folderTemp = new File(sdPath, "LearnIt");
+                        File folder = new File(folderTemp, path);
                         folder.mkdirs();
                         File outFile = new File(folder, fileName);
                         Log.e("my_logs", "saving " + outFile.getPath());
@@ -124,7 +128,7 @@ public class LoadStarDictWorker extends Fragment {
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
-            DONE = true;
+            _status = LoadStarDictWorker.Status.DONE;
             _task = null;
             mCallback.onDictLoaded();
         }
