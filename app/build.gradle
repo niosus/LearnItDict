@@ -1,0 +1,37 @@
+apply plugin: 'android'
+android {
+    compileSdkVersion 19
+    buildToolsVersion '19.0.3'
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 16
+    }
+    buildTypes {
+        debug {
+            runProguard false
+        }
+    }
+    productFlavors {
+        de_ru {
+            packageName 'com.learnit.dict_de_ru'
+        }
+        en_ru {
+            packageName 'com.learnit.dict_en_ru'
+        }
+    }
+}
+
+buildscript {
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.9.+'
+    }
+    repositories {
+        mavenCentral()
+    }
+}
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile 'com.android.support:support-v13:+'
+}
