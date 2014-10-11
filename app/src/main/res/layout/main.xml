@@ -5,67 +5,44 @@
               android:layout_height="fill_parent"
         >
     <TextView
-            android:id="@+id/txtWelcome"
-            android:gravity="center"
-            android:text="@string/welcome"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large">
-    </TextView>
-    <TextView
             android:id="@+id/txtExplanation"
+            android:layout_alignParentTop="true"
             android:gravity="center"
             android:text="@string/explanation"
-            android:layout_below="@id/txtWelcome"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-            android:textColor="@android:color/holo_blue_dark">
+            style="@style/MyTextView">
 
     </TextView>
     <TextView
             android:id="@+id/txtDelete"
             android:gravity="center"
             android:text="@string/delete_the_app"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium">
-
-    </TextView>
-    <TextView
-            android:id="@+id/txtCopying"
-            android:gravity="center"
-            android:text="@string/copying"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:textColor="@android:color/holo_blue_dark">
-
-    </TextView>
-    <ProgressBar
-        android:id="@+id/progressBar"
             android:layout_alignParentBottom="true"
-            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
-    <Button
-            android:id="@+id/btnStart"
-            android:layout_above="@id/progressBar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/start_copying">
-    </Button>
-   <TextView
-           android:id="@+id/txtSuccess"
-           android:gravity="center"
-           android:layout_above="@id/btnStart"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:text="@string/success"
-           android:textStyle="bold"
-           android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-           android:textColor="@android:color/holo_green_light">
-   </TextView>
+            style="@style/MyTextView">
+    </TextView>
+    <ImageView
+        android:src="@drawable/logo_white"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/app_name"
+        android:layout_above="@id/txtDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <com.dd.CircularProgressButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/circularProgressButton"
+        android:layout_below="@id/txtExplanation"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:padding="30dp"
+        android:layout_margin="20dp"
+        app:cpb_cornerRadius="6dp"
+        app:cpb_iconComplete="@drawable/ic_navigation_accept"
+        app:cpb_iconError="@drawable/ic_navigation_cancel"
+        app:cpb_textIdle="@string/start_copying" />
 </RelativeLayout>
 

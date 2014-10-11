@@ -13,15 +13,13 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.dd.CircularProgressButton;
+
 public class LoadStarDictUiFragment extends Fragment{
     private static String LOG_TAG = "my_logs";
-    ProgressBar _progressBar;
-    Button _button;
-    TextView _success;
-    TextView _welcome;
     TextView _explain;
-    TextView _copying;
     TextView _deleteTheApp;
+    CircularProgressButton _button;
     private OnUserAction mCallback;
 
     public interface OnUserAction {
@@ -42,19 +40,13 @@ public class LoadStarDictUiFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.main, container, false);
-        _progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
-        _progressBar.setIndeterminate(true);
-        _button = (Button) v.findViewById(R.id.btnStart);
-        _success = (TextView) v.findViewById(R.id.txtSuccess);
-        _welcome = (TextView) v.findViewById(R.id.txtWelcome);
         _explain = (TextView) v.findViewById(R.id.txtExplanation);
-        _copying = (TextView) v.findViewById(R.id.txtCopying);
         _deleteTheApp = (TextView) v.findViewById(R.id.txtDelete);
+        _button = (CircularProgressButton) v.findViewById(R.id.circularProgressButton);
 
         _button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                flyAwayDown(view);
                 mCallback.onButtonPressed();
             }
         });
@@ -67,13 +59,9 @@ public class LoadStarDictUiFragment extends Fragment{
     {
         try
         {
-            _progressBar.setVisibility(View.INVISIBLE);
-            _success.setVisibility(View.INVISIBLE);
-            _copying.setVisibility(View.INVISIBLE);
             _deleteTheApp.setVisibility(View.INVISIBLE);
-            _button.setVisibility(View.INVISIBLE);
-            _welcome.setVisibility(View.INVISIBLE);
-            _explain.setVisibility(View.INVISIBLE);
+            _button.setVisibility(View.VISIBLE);
+            _explain.setVisibility(View.VISIBLE);
         }
         catch (NullPointerException e)
         {
@@ -84,7 +72,7 @@ public class LoadStarDictUiFragment extends Fragment{
     public void showInitialLayout()
     {
         init();
-        _welcome.setVisibility(View.VISIBLE);
+        _button.setIndeterminateProgressMode(true);
         _explain.setVisibility(View.VISIBLE);
         _button.setVisibility(View.VISIBLE);
     }
@@ -92,14 +80,11 @@ public class LoadStarDictUiFragment extends Fragment{
     public void showWorkingLayout()
     {
         init();
-        _progressBar.setVisibility(View.VISIBLE);
-        _copying.setVisibility(View.VISIBLE);
     }
 
     public void showDoneLayout()
     {
         init();
-        _success.setVisibility(View.VISIBLE);
         _deleteTheApp.setVisibility(View.VISIBLE);
     }
 
@@ -168,26 +153,6 @@ public class LoadStarDictUiFragment extends Fragment{
         });
     }
 
-    private void flyInFromAbove(final View v)
-    {
-        Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fly_in_from_above);
-        v.startAnimation(anim);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                v.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-    }
-
     private void playFadeOutAnimation(final View v)
     {
         Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fade_out);
@@ -210,32 +175,13 @@ public class LoadStarDictUiFragment extends Fragment{
 
     public void setProgressVisible()
     {
-        flyInFromBelow(_progressBar);
-        flyAwayUp(_welcome);
-        flyAwayUp(_explain);
-        _copying.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                flyInFromAbove(_copying);
-            }
-        }, 500);
-    }
-
-    public void setProgressInvisible()
-    {
-        flyAwayDown(_progressBar);
+        _button.setProgress(50);
     }
 
     public void showSuccess()
     {
-        flyInFromBelow(_success);
-        flyAwayUp(_copying);
-        _deleteTheApp.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                flyInFromAbove(_deleteTheApp);
-            }
-        }, 500);
+        _button.setProgress(100);
+        flyInFromBelow(_deleteTheApp);
     }
 
 

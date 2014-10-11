@@ -71,12 +71,11 @@ public class MainActivity extends Activity
 
     @Override
     public void onProgressUpdate(int progress) {
-
+        Log.d("my_logs", "progress " + progress);
     }
 
     @Override
     public void onDictLoaded() {
-        _uiFragment.setProgressInvisible();
         _uiFragment.showSuccess();
     }
 

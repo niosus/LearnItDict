@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2014  Igor Bogoslavskyi
+  ~ This file is part of LearnIt.
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <style name="Theme.BlueTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.BlueTheme</item>
+        <item name="android:windowBackground">@color/background_color</item>
+        <item name="android:dialogTheme">@style/Dialog.BlueTheme</item>
+    </style>
+
+    <style name="Theme.BlueTheme.DialogWhenLarge" parent="android:Theme.Holo.Light.DialogWhenLarge">
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.BlueTheme</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:dialogTheme">@style/Dialog.BlueTheme</item>
+    </style>
+
+
+    <style name="Dialog.BlueTheme" parent="android:Theme.Holo.Light.Dialog">
+        <item name="android:editTextStyle">@style/MyEditTextOnWhite</item>
+    </style>
+
+    <style name="Theme.BlueTheme.TextView" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/my_normal_text</item>
+    </style>
+
+    <style name="ActionBar.Solid.BlueTheme" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@color/white</item>
+    </style>
+
+
+</resources>
