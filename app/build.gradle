@@ -13,13 +13,16 @@ android {
     }
     productFlavors {
         de_ru {
-            packageName 'com.learnit.dict_de_ru'
+            applicationId 'com.learnit.dict_de_ru'
         }
         en_ru {
-            packageName 'com.learnit.dict_en_ru'
+            applicationId 'com.learnit.dict_en_ru'
         }
         en_uk {
-            packageName 'com.learnit.dict_en_uk'
+            applicationId 'com.learnit.dict_en_uk'
+        }
+        es_en {
+            applicationId 'com.learnit.dict_es_en'
         }
     }
 }
