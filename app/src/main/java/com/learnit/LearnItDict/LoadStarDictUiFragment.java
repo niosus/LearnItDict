@@ -72,7 +72,8 @@ public class LoadStarDictUiFragment extends Fragment{
     public void showInitialLayout()
     {
         init();
-        _button.setIndeterminateProgressMode(true);
+        _button.setIndeterminateProgressMode(false);
+        _button.setProgress(0);
         _explain.setVisibility(View.VISIBLE);
         _button.setVisibility(View.VISIBLE);
     }
@@ -91,46 +92,6 @@ public class LoadStarDictUiFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    private void flyAwayDown(final View v)
-    {
-        Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fly_away_down);
-        v.startAnimation(anim);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                v.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-    }
-
-    private void flyAwayUp(final View v)
-    {
-        Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fly_away_up);
-        v.startAnimation(anim);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                v.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
     }
 
     private void flyInFromBelow(final View v)
@@ -153,29 +114,9 @@ public class LoadStarDictUiFragment extends Fragment{
         });
     }
 
-    private void playFadeOutAnimation(final View v)
-    {
-        Animation anim = AnimationUtils.loadAnimation(this.getActivity(), R.anim.fade_out);
-        v.startAnimation(anim);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                v.setAlpha(0.3f);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-    }
-
     public void setProgressVisible()
     {
-        _button.setProgress(50);
+        _button.setIndeterminateProgressMode(false);
     }
 
     public void showSuccess()
@@ -184,6 +125,15 @@ public class LoadStarDictUiFragment extends Fragment{
         flyInFromBelow(_deleteTheApp);
     }
 
+    public void onProgressUpdate(int progress) {
+        if (progress == 0) { return; }
+        if (progress == 100) {
+            _button.setIndeterminateProgressMode(true);
+            _button.setProgress(50);
+            return;
+        }
+        _button.setProgress(progress);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

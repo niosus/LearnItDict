@@ -99,6 +99,7 @@ public class LoadStarDictWorker extends Fragment {
                     InputStream in;
                     OutputStream out;
                     try {
+                        File file = new File(path + File.separator + fileName);
                         in = assetManager.open(path + File.separator + fileName);
                         File sdPath = Environment.getExternalStorageDirectory();
                         File folderTemp = new File(sdPath, "LearnIt");
@@ -107,7 +108,8 @@ public class LoadStarDictWorker extends Fragment {
                         File outFile = new File(folder, fileName);
                         Log.e("my_logs", "saving " + outFile.getPath());
                         out = new FileOutputStream(outFile);
-                        copyFile(in, out);
+                        long size = in.available();
+                        copyFile(in, out, size);
                         in.close();
                         out.flush();
                         out.close();
@@ -120,11 +122,15 @@ public class LoadStarDictWorker extends Fragment {
             }
         }
 
-        private void copyFile(InputStream in, OutputStream out) throws IOException {
-            byte[] buffer = new byte[1024];
+        private void copyFile(InputStream in, OutputStream out, long size) throws IOException {
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
             int read;
+            long currentRead = 0;
             while((read = in.read(buffer)) != -1){
                 out.write(buffer, 0, read);
+                currentRead+=bufferSize;
+                publishProgress((int) ((currentRead * 100) / size));
             }
         }
 

@@ -13,4 +13,5 @@
     <dimen name="my_margin_right">8dp</dimen>
     <dimen name="my_margin_left">8dp</dimen>
     <dimen name="my_query_word_margin">10dp</dimen>
+    <dimen name="cpb_stroke_width">16dp</dimen>
 </resources>
