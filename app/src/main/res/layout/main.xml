@@ -43,7 +43,6 @@
         app:cpb_cornerRadius="6dp"
         app:cpb_iconComplete="@drawable/ic_accept"
         app:cpb_iconError="@drawable/ic_error"
-        app:cpb_colorIndicator="@color/highlight"
         app:cpb_textIdle="@string/start_copying" />
 </RelativeLayout>
 

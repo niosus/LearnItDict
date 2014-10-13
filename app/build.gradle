@@ -3,7 +3,7 @@ import java.util.regex.Pattern
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion 19
-    buildToolsVersion '19.1.0'
+    buildToolsVersion '20.0.0'
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 19
@@ -75,21 +75,5 @@ task('increaseBuildVersion') << {
     stringsSource.write(newStrings)
 }
 
-tasks.whenTaskAdded { task ->
-    if (task.name == 'assembleRelease') {
-        task.dependsOn 'increaseVersionCode'
-        task.dependsOn 'increaseBuildVersion'
-    }
-    if (task.name == 'assembleDebug') {
-        task.dependsOn 'increaseVersionCode'
-        task.dependsOn 'increaseBuildVersion'
-    }
-    if (task.name == 'generateReleaseBuildConfig') {
-        task.dependsOn 'increaseVersionCode'
-        task.dependsOn 'increaseBuildVersion'
-    }
-    if (task.name == 'generateDebugBuildConfig') {
-        task.dependsOn 'increaseVersionCode'
-        task.dependsOn 'increaseBuildVersion'
-    }
-}
+preBuild.dependsOn 'increaseVersionCode'
+preBuild.dependsOn 'increaseBuildVersion'
